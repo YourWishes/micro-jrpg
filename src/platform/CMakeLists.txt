@@ -3,10 +3,5 @@
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
-# Sources
-target_sources(microrpg PRIVATE
-  direction.c
-  entity.c
-  player.c
-  sign.c
-)
+# Change inclusion to platform-specific
+add_subdirectory(term)

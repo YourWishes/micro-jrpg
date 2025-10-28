@@ -6,6 +6,7 @@
  */
 
 #include "entity.h"
+#include "game.h"
 
 void entityInit(entity_t *entity, const entitytype_t type) {
   memset(entity, 0, sizeof(entity_t));
@@ -28,21 +29,62 @@ void entityTurn(entity_t *entity, const direction_t direction) {
 }
 
 void entityWalk(entity_t *entity, const direction_t direction) {
-  // TODO: Animation, delay, colission, result, etc.
+  // TODO: Animation, delay, etc.
   entity->direction = direction;
 
-  switch(direction) {
-    case DIRECTION_NORTH:
-      entity->position.y--;
+  // Where are we moving?
+  uint8_t newX, newY;
+  newX = entity->position.x;
+  newY = entity->position.y;
+  {
+    int8_t relX, relY;
+    directionGetRelative(direction, &relX, &relY);
+    newX += relX;
+    newY += relY;
+  }
+
+  // TODO: Tile in way?
+  // TODO: Map bounds in way?
+
+  // Entity in way?
+  entity_t *start = GAME.overworld.map.entities;
+  entity_t *end = start + MAP_ENTITY_COUNT;
+  while(start < end) {
+    if(
+      start == entity ||
+      entity->type == ENTITY_TYPE_NULL ||
+      start->position.x != newX ||
+      start->position.y != newY
+    ) {
+      start++;
+      continue;
+    }
+
+    return;// Blocked
+  }
+
+  // Player in way?
+  entity_t *player = &GAME.player;
+  if(
+    entity != player &&
+    player->position.x == newX &&
+    player->position.y == newY
+  ) {
+    return;// Blocked
+  }
+
+  // Move.
+  entity->position.x = newX;
+  entity->position.y = newY;
+}
+
+void entityInteract(entity_t *entity) {
+  switch(entity->type) {
+    case ENTITY_TYPE_SIGN:
+      signInteract(entity);
       break;
-    case DIRECTION_EAST:
-      entity->position.x++;
-      break;
-    case DIRECTION_SOUTH:
-      entity->position.y++;
-      break;
-    case DIRECTION_WEST:
-      entity->position.x--;
+
+    default:
       break;
   }
 }

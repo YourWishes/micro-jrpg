@@ -7,6 +7,7 @@
 
 #include "term.h"
 #include "input.h"
+#include <time.h>
 
 typedef struct terminputmap_s {
   int key;
@@ -44,7 +45,17 @@ void termInit() {
   curs_set(0);
   start_color();
   use_default_colors();
+
   init_pair(1, COLOR_GREEN, -1);
+
+  // Set in-game time to real world time.
+  time_t now = time(NULL);
+  struct tm *t = localtime(&now);
+
+  GAME.time.days = t->tm_wday;
+  GAME.time.hours = t->tm_hour;
+  GAME.time.minutes = t->tm_min;
+  GAME.time.seconds = t->tm_sec;
 }
 
 void termUpdate() {
@@ -74,9 +85,15 @@ void termUpdate() {
 
 void termDraw() {
   clear();
-  attron(COLOR_PAIR(1));
 
-  termDrawEntity(&GAME.player);
+  switch(GAME.scene) {
+    case SCENE_OVERWORLD:
+      termDrawOverworld();
+      break;
+
+    default:
+      break;
+  }
 
   attroff(COLOR_PAIR(1));
   refresh();
@@ -85,9 +102,43 @@ void termDraw() {
   napms(16);
 }
 
+void termDrawOverworld() {
+  // Draw map.
+
+  // Draw entities.
+  attron(COLOR_PAIR(1));
+  termDrawEntity(&GAME.player);
+
+  entity_t *start = GAME.overworld.map.entities;
+  entity_t *end = start + MAP_ENTITY_COUNT;
+  while(start < end) {
+    if(start->type != ENTITY_TYPE_NULL) termDrawEntity(start);
+    start++;
+  }
+}
+
 void termDrawEntity(const entity_t *ent) {
   // Placeholder: Draw entity at its position
-  mvaddch(ent->position.y, ent->position.x, '@');
+  char c;
+  switch(ent->direction) {
+    case DIRECTION_NORTH:
+      c = '^';
+      break;
+    case DIRECTION_EAST:
+      c = '>';
+      break;
+    case DIRECTION_SOUTH:
+      c = 'v';
+      break;
+    case DIRECTION_WEST:
+      c = '<';
+      break;
+    default:
+      c = '@';
+      break;
+  }
+
+  mvaddch(ent->position.y, ent->position.x, c);
 }
 
 void termDispose() {

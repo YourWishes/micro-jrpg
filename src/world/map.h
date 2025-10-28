@@ -18,7 +18,7 @@ typedef struct map_s {
   // Loaded chunks.
   chunk_t chunks[MAP_CHUNK_COUNT];
   chunk_t *order[MAP_CHUNK_COUNT];
-  int8_t firstChunk;
+  int8_t topLeftX, topLeftY;
 
   // Map entities
   entity_t entities[MAP_ENTITY_COUNT];

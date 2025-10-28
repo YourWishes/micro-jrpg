@@ -34,6 +34,11 @@ void termUpdate();
 void termDraw();
 
 /** 
+ * Draw the overworld scene.
+ */
+void termDrawOverworld();
+
+/** 
  * Draw an entity to the terminal.
  * 
  * @param ent The entity to draw.

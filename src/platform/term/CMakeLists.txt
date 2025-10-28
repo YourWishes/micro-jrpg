@@ -20,6 +20,7 @@ target_link_libraries(microrpg PRIVATE
 target_sources(microrpg PRIVATE
   term.c
   inputterm.c
+  platform.c
 )
 
 # Compiler flags

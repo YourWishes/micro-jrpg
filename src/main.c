@@ -6,32 +6,20 @@
  */
 
 #include "game.h"
-#if RPG_TERM == 1
-#include "term/term.h"
-#endif
+#include "platform/platform.h"
 
 int main(int argc, char** argv) {
   gameInit();
-
-  #if RPG_TERM == 1
-    termInit();
-  #endif
+  platformInit();
 
   while(1) {
-    #if RPG_TERM == 1
-      termUpdate();
-    #endif
+    platformUpdate();
 
     gameTick();
 
-    #if RPG_TERM == 1
-      termDraw();
-    #endif
+    platformDraw();
   }
 
-  #if RPG_TERM == 1
-    termDispose();
-  #endif
-
+  platformDispose();
   return 0;
 }

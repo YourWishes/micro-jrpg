@@ -11,11 +11,11 @@ target_sources(microrpg PRIVATE
   main.c
   game.c
   input.c
+  gametime.c
 )
 
 # Subdirs
 add_subdirectory(entity)
 add_subdirectory(scene)
+add_subdirectory(platform)
 add_subdirectory(world)
-
-add_subdirectory(term)

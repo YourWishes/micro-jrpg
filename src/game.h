@@ -9,6 +9,7 @@
 #include "entity/entity.h"
 #include "world/map.h"
 #include "scene/scene.h"
+#include "gametime.h"
 
 #define GAME_SCENE_INITIAL 0
 #define GAME_SCENE_OVERWORLD 1
@@ -16,6 +17,7 @@
 typedef struct game_s {
   scene_t scene;
   entity_t player;
+  gametime_t time;
 
   union {
     struct {

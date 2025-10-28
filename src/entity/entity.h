@@ -9,15 +9,20 @@
 #include "entity/direction.h"
 #include "entity/entitytype.h"
 #include "player.h"
+#include "sign.h"
 
 typedef struct entity_s {
   struct {
-    // Relative to top-left of the map
+    // Relative to top-left position of the top-left chunk of the map.
     uint8_t x, y;
   } position;
 
   direction_t direction;
   entitytype_t type;
+
+  union {
+    sign_t sign;
+  };
 } entity_t;
 
 /**
@@ -50,3 +55,10 @@ void entityTurn(entity_t *entity, const direction_t direction);
  * @param direction The direction to walk in.
  */
 void entityWalk(entity_t *entity, const direction_t direction);
+
+/**
+ * Receive interaction from player.
+ * 
+ * @param entity Pointer to the entity being interacted with.
+ */
+void entityInteract(entity_t *entity);

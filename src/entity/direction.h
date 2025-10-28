@@ -19,3 +19,12 @@
 #define DIRECTION_WEST DIRECTION_LEFT
 
 typedef uint8_t direction_t;
+
+/**
+ * Get the relative x and y offsets for a given direction.
+ * 
+ * @param from The direction to get offsets for.
+ * @param outX Pointer to store the x offset.
+ * @param outY Pointer to store the y offset.
+ */
+void directionGetRelative(const direction_t from, int8_t *outX, int8_t *outY);

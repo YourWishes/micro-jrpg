@@ -6,10 +6,8 @@
  */
 
 #pragma once
-#include "microrpg.h"
+#include "cutscene.h"
 
-#define ENTITY_TYPE_NULL 0
-#define ENTITY_TYPE_PLAYER 1
-#define ENTITY_TYPE_SIGN 2
-
-typedef uint8_t entitytype_t;
+cutsceneitem_t TEST_CUTSCENE_ITEMS[] = {
+  { .type = CUTSCENE_ITEM_TEXTBOX, .textbox = "Hello World" }
+};
