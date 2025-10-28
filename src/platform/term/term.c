@@ -6,107 +6,11 @@
  */
 
 #include "term.h"
-#include "input.h"
-#include <time.h>
-
-typedef struct terminputmap_s {
-  int key;
-  uint8_t action;
-} terminputmap_t;
-
-static const terminputmap_t TERM_INPUT_MAP[] = {
-  { KEY_UP, INPUT_ACTION_UP },
-  { 'w', INPUT_ACTION_UP },
-  { KEY_DOWN, INPUT_ACTION_DOWN },
-  { 's', INPUT_ACTION_DOWN },
-  { KEY_LEFT, INPUT_ACTION_LEFT },
-  { 'a', INPUT_ACTION_LEFT },
-  { KEY_RIGHT, INPUT_ACTION_RIGHT },
-  { 'd', INPUT_ACTION_RIGHT },
-  { 'j', INPUT_ACTION_A },
-  { 'e', INPUT_ACTION_A },
-  { 'k', INPUT_ACTION_B },
-  { 'q', INPUT_ACTION_B },
-  { KEY_ENTER, INPUT_ACTION_START },
-  { ' ', INPUT_ACTION_SELECT },
-  { -1, 0 }
-};
-
-term_t TERM;
-
-void termInit() {
-  memset(&TERM, 0, sizeof(TERM));
-
-  initscr();
-  cbreak();
-  noecho();
-  keypad(stdscr, TRUE);
-  nodelay(stdscr, TRUE);
-  curs_set(0);
-  start_color();
-  use_default_colors();
-
-  init_pair(1, COLOR_GREEN, -1);
-
-  // Set in-game time to real world time.
-  time_t now = time(NULL);
-  struct tm *t = localtime(&now);
-
-  GAME.time.days = t->tm_wday;
-  GAME.time.hours = t->tm_hour;
-  GAME.time.minutes = t->tm_min;
-  GAME.time.seconds = t->tm_sec;
-}
-
-void termUpdate() {
-  TERM.inputPrevious = TERM.inputCurrent;
-  TERM.inputCurrent = 0;
-
-  int ch = getch();
-  if(ch == ERR) {
-    TERM.lastch = ERR;
-    return;
-  }
-
-  if(ch == TERM.lastch) {
-    return;
-  }
-  TERM.lastch = ch;
-
-  const terminputmap_t *map = TERM_INPUT_MAP;
-  while(map->key != -1) {
-    if(map->key == ch) {
-      TERM.inputCurrent |= map->action;
-      break;
-    }
-    map++;
-  }
-}
-
-void termDraw() {
-  clear();
-
-  switch(GAME.scene) {
-    case SCENE_OVERWORLD:
-      termDrawOverworld();
-      break;
-
-    default:
-      break;
-  }
-
-  attroff(COLOR_PAIR(1));
-  refresh();
-  
-  // 16ms delay (60FPS)
-  napms(16);
-}
+#include "game.h"
 
 void termDrawOverworld() {
   // Draw map.
 
-  // Draw entities.
-  attron(COLOR_PAIR(1));
   termDrawEntity(&GAME.player);
 
   entity_t *start = GAME.overworld.map.entities;
@@ -138,9 +42,13 @@ void termDrawEntity(const entity_t *ent) {
       break;
   }
 
-  mvaddch(ent->position.y, ent->position.x, c);
+  termPushChar
 }
 
-void termDispose() {
-  endwin();
+void termDraw() {
+  termClear();
+
+
+
+  termFlush();
 }

@@ -10,10 +10,10 @@
 
 int main(int argc, char** argv) {
   gameInit();
-  platformInit();
+  if(platformInit() != PLATFORM_OK) return 1;
 
   while(1) {
-    platformUpdate();
+    if(platformUpdate() != PLATFORM_OK) break;
 
     gameTick();
 

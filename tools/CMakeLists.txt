@@ -3,12 +3,4 @@
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
-# Sources
-target_sources(microrpg PRIVATE
-  term.c
-)
-
-# Compiler flags
-target_compile_definitions(microrpg PRIVATE
-  RPG_TERM=1
-)
+add_subdirectory(embed)

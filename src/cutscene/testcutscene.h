@@ -8,6 +8,10 @@
 #pragma once
 #include "cutscene.h"
 
+static void testCutsceneTest() {
+  abort();
+}
+
 cutsceneitem_t TEST_CUTSCENE_ITEMS[] = {
-  { .type = CUTSCENE_ITEM_TEXTBOX, .textbox = "Hello World" }
+  { .type = CUTSCENE_ITEM_CALLBACK, .callback = testCutsceneTest }
 };

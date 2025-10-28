@@ -3,5 +3,6 @@
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
-# Change inclusion to platform-specific
+add_subdirectory(raylib)
 add_subdirectory(term)
+#add_subdirectory(term)
