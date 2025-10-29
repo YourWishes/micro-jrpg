@@ -31,7 +31,7 @@ void entityTick(entity_t *entity) {
   }
 
   // Let entities move (if they do)
-  if(entity->type == ENTITY_TYPE_PLAYER) {
+  if(entity->type == ENTITY_TYPE_PLAYER && cutsceneModeIsInputAllowed()) {
     playerTickInput(entity);
   }
 }

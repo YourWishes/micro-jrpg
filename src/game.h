@@ -9,6 +9,7 @@
 #include "entity/entity.h"
 #include "world/map.h"
 #include "scene/scene.h"
+#include "cutscene/cutscene.h"
 #include "gametime.h"
 
 #define GAME_SCENE_INITIAL 0
@@ -18,6 +19,7 @@ typedef struct game_s {
   scene_t scene;
   entity_t player;
   gametime_t time;
+  cutscenesystem_t cutsceneSystem;
 
   union {
     struct {

@@ -9,5 +9,6 @@
 #include "entity.h"
 
 void signInteract(entity_t *entity) {
-  abort();
+  if(entity->sign.cutscene == NULL) return;
+  cutsceneStart(entity->sign.cutscene);
 }

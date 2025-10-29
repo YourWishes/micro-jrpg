@@ -6,12 +6,12 @@
  */
 
 #pragma once
-#include "microrpg.h"
+#include "cutscene/cutscene.h"
 
 typedef struct entity_s entity_t;
 
 typedef struct sign_s {
-  void *nothing;
+  const cutscene_t *cutscene;
 } sign_t;
 
 /**

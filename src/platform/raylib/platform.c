@@ -72,7 +72,7 @@ uint8_t platformUpdate() {
   // Update input state.
   PLATFORM_RAYLIB.inputPrevious = PLATFORM_RAYLIB.inputCurrent;
   PLATFORM_RAYLIB.inputCurrent = 0;
-  rlkeyboardmap_t *map = RL_KEYBOARD_MAP;
+  const rlkeyboardmap_t *map = RL_KEYBOARD_MAP;
   do {
     if(IsKeyDown(map->raylibKey)) {
       PLATFORM_RAYLIB.inputCurrent |= map->action;

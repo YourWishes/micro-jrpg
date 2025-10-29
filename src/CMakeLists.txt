@@ -15,6 +15,7 @@ target_sources(microrpg PRIVATE
 )
 
 # Subdirs
+add_subdirectory(cutscene)
 add_subdirectory(entity)
 add_subdirectory(scene)
 add_subdirectory(platform)
