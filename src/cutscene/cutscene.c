@@ -22,9 +22,7 @@ void cutsceneStart(const cutscene_t *cutscene) {
 void cutsceneTick() {
   if(GAME.cutsceneSystem.cutscene == NULL) return;
 
-  const cutsceneitem_t *item = (
-    &GAME.cutsceneSystem.cutscene->items[GAME.cutsceneSystem.currentItem]
-  );
+  const cutsceneitem_t *item = cutsceneGetCurrentItem();
   cutsceneItemTick(item, &GAME.cutsceneSystem.data);
 }
 
@@ -34,16 +32,23 @@ void cutsceneNext() {
   GAME.cutsceneSystem.currentItem++;
 
   // End of the cutscene?
-  if(GAME.cutsceneSystem.currentItem >= GAME.cutsceneSystem.cutscene->itemCount) {
+  if(
+    GAME.cutsceneSystem.currentItem >= GAME.cutsceneSystem.cutscene->itemCount
+  ) {
     GAME.cutsceneSystem.cutscene = NULL;
-    GAME.cutsceneSystem.currentItem = 0;
+    GAME.cutsceneSystem.currentItem = 0xFF;
     GAME.cutsceneSystem.mode = CUTSCENE_MODE_NONE;
     return;
   }
 
   // Start item.
-  const cutsceneitem_t *item = (
-    &GAME.cutsceneSystem.cutscene->items[GAME.cutsceneSystem.currentItem]
-  );
+  const cutsceneitem_t *item = cutsceneGetCurrentItem();
+  memset(&GAME.cutsceneSystem.data, 0, sizeof(GAME.cutsceneSystem.data));
   cutsceneItemStart(item, &GAME.cutsceneSystem.data);
+}
+
+const cutsceneitem_t * cutsceneGetCurrentItem() {
+  if(GAME.cutsceneSystem.cutscene == NULL) return NULL;
+
+  return &GAME.cutsceneSystem.cutscene->items[GAME.cutsceneSystem.currentItem];
 }

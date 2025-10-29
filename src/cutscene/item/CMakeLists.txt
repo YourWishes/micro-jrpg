@@ -5,9 +5,5 @@
 
 # Sources
 target_sources(microrpg PRIVATE
-  cutscene.c
-  cutscenemode.c
+  cutsceneitem.c
 )
-
-# Subdirectories
-add_subdirectory(item)

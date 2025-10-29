@@ -6,10 +6,10 @@
  */
 
 #pragma once
-#include "cutsceneitem.h"
-#include "cutscenemode.h"
+#include "cutscene/item/cutsceneitem.h"
+#include "cutscene/cutscenemode.h"
 
-typedef struct {
+typedef struct cutscene_s {
   const cutsceneitem_t *items;
   uint8_t itemCount;
 } cutscene_t;
@@ -44,3 +44,10 @@ void cutsceneNext();
  * Update the cutscene system for one tick.
  */
 void cutsceneTick();
+
+/**
+ * Get the current cutscene item.
+ * 
+ * @return Pointer to the current cutscene item.
+ */
+const cutsceneitem_t * cutsceneGetCurrentItem();

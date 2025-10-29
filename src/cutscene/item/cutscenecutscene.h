@@ -8,4 +8,6 @@
 #pragma once
 #include "microrpg.h"
 
-typedef const char *cutscenetext_t;
+typedef struct cutscene_s cutscene_t;
+
+typedef cutscene_t* cutscenecutscene_t;

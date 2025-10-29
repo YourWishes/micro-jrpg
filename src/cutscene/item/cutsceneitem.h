@@ -9,11 +9,13 @@
 #include "cutscenewait.h"
 #include "cutscenecallback.h"
 #include "cutscenetext.h"
+#include "cutscenecutscene.h"
 
 #define CUTSCENE_ITEM_NULL 0
 #define CUTSCENE_ITEM_TEXT 1
 #define CUTSCENE_ITEM_CALLBACK 2
 #define CUTSCENE_ITEM_WAIT 3
+#define CUTSCENE_ITEM_CUTSCENE 4
 
 typedef struct cutsceneitem_s {
   uint8_t type;
@@ -23,10 +25,12 @@ typedef struct cutsceneitem_s {
     cutscenetext_t text;
     cutscenecallback_t callback;
     cutscenewait_t wait;
+    cutscenecutscene_t cutscene;
   };
 } cutsceneitem_t;
 
 typedef union {
+  cutscenetextdata_t text;
   cutscenewaitdata_t wait;
 } cutsceneitemdata_t;
 
