@@ -6,49 +6,50 @@
  */
 
 #include "term.h"
-#include "game.h"
-
-void termDrawOverworld() {
-  // Draw map.
-
-  termDrawEntity(&GAME.player);
-
-  entity_t *start = GAME.overworld.map.entities;
-  entity_t *end = start + MAP_ENTITY_COUNT;
-  while(start < end) {
-    if(start->type != ENTITY_TYPE_NULL) termDrawEntity(start);
-    start++;
-  }
-}
-
-void termDrawEntity(const entity_t *ent) {
-  // Placeholder: Draw entity at its position
-  char c;
-  switch(ent->direction) {
-    case DIRECTION_NORTH:
-      c = '^';
-      break;
-    case DIRECTION_EAST:
-      c = '>';
-      break;
-    case DIRECTION_SOUTH:
-      c = 'v';
-      break;
-    case DIRECTION_WEST:
-      c = '<';
-      break;
-    default:
-      c = '@';
-      break;
-  }
-
-  termPushChar
-}
+#include "termoverworld.h"
 
 void termDraw() {
   termClear();
 
+  int32_t width, height, x, y;
+  width = termGetColumnCount();
+  height = termGetRowCount();
 
+  // Create buffers
+  char_t *chars = malloc(width * height * sizeof(char_t));
+  if(chars == NULL) {
+    printf("termDrawOverworld: Out of memory!\n");
+    abort();
+    return;
+  }
+  memset(chars, ' ', width * height * sizeof(char_t));
+
+  termcolor_t *colors = malloc(width * height * sizeof(termcolor_t));
+  if(colors == NULL) {
+    printf("termDrawOverworld: Out of memory!\n");
+    free(chars);
+    abort();
+    return;
+  }
+  memset(colors, TERM_COLOR_WHITE, width * height * sizeof(termcolor_t));
+
+  // Draw
+  termDrawOverworld(chars, colors, width, height);
+
+  // Print
+  size_t i;
+  termcolor_t curColor = TERM_COLOR_WHITE;
+  for(size_t i = 0; i < width * height; i++) {
+    if(colors[i] != curColor) {
+      termPushColor(colors[i]);
+      curColor = colors[i];
+    }
+    termPushChar(chars[i]);
+  }
+  
+  // Clean up
+  free(chars);
+  free(colors);
 
   termFlush();
 }

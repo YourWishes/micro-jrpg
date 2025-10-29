@@ -18,12 +18,12 @@ target_link_libraries(microrpg PRIVATE
 
 # Sources
 target_sources(microrpg PRIVATE
-  term.c
   inputterm.c
   platform.c
+  termtty.c
 )
 
 # Compiler flags
 target_compile_definitions(microrpg PRIVATE
-  RPG_TERM=1
+  RPG_TTY=1
 )

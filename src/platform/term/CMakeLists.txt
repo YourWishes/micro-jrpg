@@ -6,6 +6,7 @@
 # Sources
 target_sources(microrpg PRIVATE
   term.c
+  termoverworld.c
 )
 
 # Compiler flags
