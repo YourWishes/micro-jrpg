@@ -17,6 +17,19 @@ void entityInit(entity_t *entity, const entitytype_t type) {
 void entityTick(entity_t *entity) {
   if(entity->type == ENTITY_TYPE_NULL) return;
 
+  // Handle animation
+  switch(entity->animation) {
+    case ENTITY_ANIM_WALK:
+      entity->animWalk--;
+      if(entity->animWalk == 0) {
+        entity->animation = ENTITY_ANIM_NONE;
+      }
+      return;
+
+    default:
+      break;
+  }
+
   // Let entities move (if they do)
   if(entity->type == ENTITY_TYPE_PLAYER) {
     playerTickInput(entity);
@@ -76,6 +89,9 @@ void entityWalk(entity_t *entity, const direction_t direction) {
   // Move.
   entity->position.x = newX;
   entity->position.y = newY;
+
+  entity->animation = ENTITY_ANIM_WALK;
+  entity->animWalk = ENTITY_ANIM_WALK_DURATION;// TODO: Running vs walking
 }
 
 void entityInteract(entity_t *entity) {

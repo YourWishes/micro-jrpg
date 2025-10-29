@@ -11,6 +11,11 @@
 #include "player.h"
 #include "sign.h"
 
+#define ENTITY_ANIM_NONE 0
+#define ENTITY_ANIM_WALK 1
+
+#define ENTITY_ANIM_WALK_DURATION 8
+
 typedef struct entity_s {
   struct {
     // Relative to top-left position of the top-left chunk of the map.
@@ -19,6 +24,11 @@ typedef struct entity_s {
 
   direction_t direction;
   entitytype_t type;
+
+  uint8_t animation;
+  union {
+    uint8_t animWalk;
+  };
 
   union {
     sign_t sign;

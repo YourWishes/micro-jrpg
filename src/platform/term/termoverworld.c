@@ -24,6 +24,12 @@ void termDrawOverworld(
 
   // Draw entities
   termDrawEntity(&GAME.player, chars, colors, w, h);
+
+  entity_t *start = GAME.overworld.map.entities;
+  while(start != GAME.overworld.map.entities + MAP_ENTITY_COUNT) {
+    termDrawEntity(start, chars, colors, w, h);
+    start++;
+  }
 }
 
 void termDrawEntity(
@@ -40,7 +46,26 @@ void termDrawEntity(
   int32_t index = ent->position.y * w + ent->position.x;
 
   if(ent->type == ENTITY_TYPE_PLAYER) {
-    chars[index] = '@';
+    switch(ent->direction) {
+      case DIRECTION_UP:
+        chars[index] = '^';
+        break;
+      case DIRECTION_DOWN:
+        chars[index] = 'v';
+        break;
+      case DIRECTION_LEFT:
+        chars[index] = '<';
+        break;
+      case DIRECTION_RIGHT:
+        chars[index] = '>';
+        break;
+      default:
+        chars[index] = '@';
+        break;
+    }
+    colors[index] = TERM_COLOR_WHITE;
+  } else if(ent->type == ENTITY_TYPE_SIGN) {
+    chars[index] = '!';
     colors[index] = TERM_COLOR_YELLOW;
   }
 }
